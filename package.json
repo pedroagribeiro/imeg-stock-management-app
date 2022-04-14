@@ -19,6 +19,7 @@
   "dependencies": {
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.1",
+    "axios": "^0.26.1",
     "expo": "~42.0.0",
     "expo-status-bar": "~1.0.4",
     "native-base": "3.3.7",
@@ -31,7 +32,8 @@
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0"
+    "@babel/core": "^7.9.0",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3"
   },
   "bugs": {
     "url": "https://github.com/GeekyAnts/nativebase-templates/issues"

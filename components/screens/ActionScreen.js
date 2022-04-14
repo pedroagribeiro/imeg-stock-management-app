@@ -22,7 +22,7 @@ const ActionScreen = ({ navigation }) => {
           </Button>
           <Button
             onPress={() => {
-              navigator.navigate("CheckStockScreen", {});
+              navigation.navigate("CheckStockScreen", {});
             }}
           >
             Consultar stock

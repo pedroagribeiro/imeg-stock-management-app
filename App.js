@@ -20,7 +20,6 @@ export const theme = extendTheme({ config });
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  // const [selectItem, setSelectedItem] = React.useState("");
   return (
     <NativeBaseProvider>
       <NavigationContainer>
