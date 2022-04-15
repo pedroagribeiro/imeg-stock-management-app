@@ -27,6 +27,16 @@ const ActionScreen = ({ navigation }) => {
           >
             Consultar stock
           </Button>
+          <Button onPress={() => navigation.navigate("CreateItemScreen", {})}>
+            Criar novo item
+          </Button>
+          <Button
+            onPress={() => {
+              navigation.navigate("CreateWorkSiteScreen", {});
+            }}
+          >
+            Criar nova obra
+          </Button>
         </Stack>
       </Center>
     </Box>

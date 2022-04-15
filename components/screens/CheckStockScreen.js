@@ -15,15 +15,22 @@ const CheckStockScreen = () => {
   const api_host = process.env["BACKEND_HOST"];
   const api_port = process.env["BACKEND_PORT"];
 
-  const [state, setState] = useState({ item: null, quantity: null });
+  const [state, setState] = useState({
+    item: null,
+    quantity: null,
+    unit: null,
+  });
 
   const ask_for_item_stock = (item_id) => {
-    const url =
-      "http://" + api_host + ":" + api_port + "/items/stock/" + item_id;
+    const url = "http://" + api_host + ":" + api_port + "/items/" + item_id;
     axios
       .get(url)
       .then((response) => {
-        setState({ item: item_id, quantity: response.data });
+        setState({
+          item: item_id,
+          quantity: response.data.quantity,
+          unit: response.data.unit,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -46,7 +53,7 @@ const CheckStockScreen = () => {
           <Center>
             <Text bold fontSize="lg">
               {state.quantity
-                ? state.quantity + " unidades"
+                ? state.quantity + " " + state.unit
                 : "Nenhum item foi escolhido"}
             </Text>
           </Center>

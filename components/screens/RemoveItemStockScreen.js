@@ -25,6 +25,7 @@ const RemoveItemStockScreen = () => {
     item: null,
     workSite: null,
     quantity: null,
+    error: false,
   });
 
   const [waitingResponse, setWaitingResponse] = useState(false);
@@ -38,11 +39,17 @@ const RemoveItemStockScreen = () => {
       item: state.item,
       workSite: state.workSite,
       quantity: quantity,
+      error: state.error,
     });
   };
 
   const handleChangeSelectedWorkSite = (value) => {
-    setState({ item: state.item, workSite: value, quantity: state.quantity });
+    setState({
+      item: state.item,
+      workSite: value,
+      quantity: state.quantity,
+      error: state.error,
+    });
   };
 
   const handleChangeSelectedItem = (value) => {
@@ -50,6 +57,7 @@ const RemoveItemStockScreen = () => {
       item: value,
       workSite: state.workSite,
       quantity: state.quantity,
+      error: state.error,
     });
   };
 
@@ -70,8 +78,18 @@ const RemoveItemStockScreen = () => {
     axios
       .post(url)
       .then((response) => console.log(response.status))
-      .catch((err) => console.log(err))
-      .finally(setWaitingResponse(false));
+      .catch((err) => {
+        setState({
+          item: state.item,
+          workSite: state.workSite,
+          quantity: state.quantity,
+          error: true,
+        });
+        console.log("errei");
+      })
+      .finally(() => {
+        setWaitingResponse(false);
+      });
   };
 
   return (
@@ -88,26 +106,33 @@ const RemoveItemStockScreen = () => {
               : "Transação comunicada"}
           </AlertDialog.Header>
           <AlertDialog.Body>
-            <Button>
-              {waitingResponse ? (
-                <HStack space={2} justifyContent="center">
-                  <Spinner accessibilityLabel="Loading posts" />
-                  <Heading color="primary.500" fontSize="md">
-                    Comunicando a transação
-                  </Heading>
-                </HStack>
-              ) : (
-                <Button
-                  onPress={() => {
-                    setState({ item: null, workSite: null, quantity: null });
-                    onClose();
-                  }}
-                >
-                  OK
-                </Button>
-              )}
-            </Button>
+            {waitingResponse ? (
+              <Spinner accessibilityLabel="Loading posts" />
+            ) : state.error ? (
+              <Heading color="red.500" fontSize="md">
+                Tentaste remover mais que o stock existente
+              </Heading>
+            ) : (
+              <Heading color="primary.500" fontSize="md">
+                Transação comunicada com sucesso
+              </Heading>
+            )}
           </AlertDialog.Body>
+          <AlertDialog.Footer>
+            <Button
+              onPress={() => {
+                setState({
+                  item: null,
+                  workSite: null,
+                  quantity: null,
+                  error: false,
+                });
+                onClose();
+              }}
+            >
+              OK
+            </Button>
+          </AlertDialog.Footer>
         </AlertDialog.Content>
       </AlertDialog>
       <FormControl>

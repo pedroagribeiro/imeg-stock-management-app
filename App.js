@@ -7,6 +7,8 @@ import ActionScreen from "./components/screens/ActionScreen";
 import AddItemStockScreen from "./components/screens/AddItemStockScreen";
 import RemoveItemStockScreen from "./components/screens/RemoveItemStockScreen";
 import CheckStockScreen from "./components/screens/CheckStockScreen";
+import CreateItemScreen from "./components/screens/CreateItemScreen";
+import CreateWorkSiteScreen from "./components/screens/CreateWorkSiteScreen";
 
 // Define the config
 const config = {
@@ -48,6 +50,16 @@ const App = () => {
             name="CheckStockScreen"
             component={CheckStockScreen}
             options={{ title: "Consulta o stock" }}
+          />
+          <Stack.Screen
+            name="CreateItemScreen"
+            component={CreateItemScreen}
+            options={{ title: "Adiciona um novo item" }}
+          />
+          <Stack.Screen
+            name="CreateWorkSiteScreen"
+            component={CreateWorkSiteScreen}
+            options={{ title: "Adiciona um novo trabalho" }}
           />
         </Stack.Navigator>
       </NavigationContainer>
