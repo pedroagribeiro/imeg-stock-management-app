@@ -12,8 +12,7 @@ import axios from "axios";
 import ItemSelection from "./selection/ItemSelection";
 
 const CheckStockScreen = () => {
-  const api_host = process.env["BACKEND_HOST"];
-  const api_port = process.env["BACKEND_PORT"];
+  const api_host = "https://imeg-stock-management.herokuapp.com";
 
   const [state, setState] = useState({
     item: null,
@@ -22,7 +21,7 @@ const CheckStockScreen = () => {
   });
 
   const ask_for_item_stock = (item_id) => {
-    const url = "http://" + api_host + ":" + api_port + "/items/" + item_id;
+    const url = api_host + "/items/" + item_id;
     axios
       .get(url)
       .then((response) => {

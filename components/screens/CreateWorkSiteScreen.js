@@ -14,15 +14,14 @@ import axios from "axios";
 
 const CreateWorkSiteScreen = () => {
   const submitForm = () => {
-    const api_host = process.env["BACKEND_HOST"];
-    const api_port = process.env["BACKEND_PORT"];
+    const api_host = "https://imeg-stock-management.herokuapp.com";
 
     const headers = { "Content-Type": "application/json" };
 
     setLoading(true);
     setDialogOpen(true);
     axios
-      .post("http://" + api_host + ":" + api_port + "/work_site", state, {
+      .post(api_host + "/work_site", state, {
         headers,
       })
       .then((res) => console.log(res))
@@ -56,6 +55,16 @@ const CreateWorkSiteScreen = () => {
 
   const handleLocation = (value) => {
     setState({ code: state.code, name: state.name, location: value });
+  };
+
+  const submitable = () => {
+    return (
+      state.code !== null &&
+      state.name !== null &&
+      state.name !== "" &&
+      state.location !== null &&
+      state.location !== ""
+    );
   };
 
   return (
@@ -127,6 +136,7 @@ const CreateWorkSiteScreen = () => {
             onChangeText={handleLocation}
           />
           <Button
+            isDisabled={!submitable()}
             onPress={() => {
               submitForm();
             }}

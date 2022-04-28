@@ -14,15 +14,14 @@ import axios from "axios";
 
 const CreateItemScreen = () => {
   const submitForm = () => {
-    const api_host = process.env["BACKEND_HOST"];
-    const api_port = process.env["BACKEND_PORT"];
+    const api_host = "https://imeg-stock-management.herokuapp.com";
 
     const headers = { "Content-Type": "application/json" };
 
     setLoading(true);
     setDialogOpen(true);
     axios
-      .post("http://" + api_host + ":" + api_port + "/items", state, {
+      .post(api_host + "/items", state, {
         headers,
       })
       .then((res) => console.log(res))
@@ -56,6 +55,17 @@ const CreateItemScreen = () => {
 
   const handleUnit = (value) => {
     setState({ name: state.name, quantity: state.quantity, unit: value });
+  };
+
+  const submitable = () => {
+    return (
+      state.name !== null &&
+      state.name !== "" &&
+      state.unit !== null &&
+      state.unit !== "" &&
+      state.quantity !== null &&
+      state.quantity > 0
+    );
   };
 
   return (
@@ -127,6 +137,7 @@ const CreateItemScreen = () => {
             onChangeText={handleUnit}
           />
           <Button
+            isDisabled={!submitable()}
             onPress={() => {
               submitForm();
             }}

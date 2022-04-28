@@ -18,8 +18,7 @@ import WorkSiteSelection from "./selection/WorkSiteSelection";
 import ItemSelection from "./selection/ItemSelection";
 
 const RemoveItemStockScreen = () => {
-  const api_host = process.env["BACKEND_HOST"];
-  const api_port = process.env["BACKEND_PORT"];
+  const api_host = "https://imeg-stock-management.herokuapp.com";
 
   const [state, setState] = useState({
     item: null,
@@ -63,10 +62,7 @@ const RemoveItemStockScreen = () => {
 
   const submitForm = () => {
     const url =
-      "http://" +
       api_host +
-      ":" +
-      api_port +
       "/items/remove/item/" +
       state.item +
       "/work_site/" +
@@ -85,11 +81,21 @@ const RemoveItemStockScreen = () => {
           quantity: state.quantity,
           error: true,
         });
-        console.log("errei");
       })
       .finally(() => {
         setWaitingResponse(false);
       });
+  };
+
+  const submitable = () => {
+    return (
+      state.item !== null &&
+      state.item !== "" &&
+      state.workSite !== null &&
+      state.workSite !== "" &&
+      state.quantity !== null &&
+      state.quantity > 0
+    );
   };
 
   return (
@@ -152,8 +158,10 @@ const RemoveItemStockScreen = () => {
             type="number"
             placeholder="Insere a quantidade"
             onChangeText={handleQuantityChange}
+            value={state.quantity}
           />
           <Button
+            isDisabled={!submitable()}
             onPress={() => {
               submitForm();
             }}

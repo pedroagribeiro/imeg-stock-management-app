@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-  CheckIcon,
+  Text,
   Heading,
   Stack,
   HStack,
   FormControl,
-  Select,
   Input,
   Button,
   Box,
   Spinner,
-  Text,
-  WarningOutlineIcon,
   AlertDialog,
 } from "native-base";
 import axios from "axios";
@@ -19,8 +16,7 @@ import WorkSiteSelection from "./selection/WorkSiteSelection";
 import ItemSelection from "./selection/ItemSelection";
 
 const AddItemStockScreen = () => {
-  const api_host = process.env["BACKEND_HOST"];
-  const api_port = process.env["BACKEND_PORT"];
+  const api_host = "https://imeg-stock-management.herokuapp.com";
 
   const [state, setState] = useState({
     workSite: null,
@@ -55,10 +51,7 @@ const AddItemStockScreen = () => {
 
   const submitForm = () => {
     const url =
-      "http://" +
       api_host +
-      ":" +
-      api_port +
       "/items/add/item/" +
       state.item +
       "/work_site/" +
@@ -71,7 +64,21 @@ const AddItemStockScreen = () => {
       .post(url)
       .then((response) => console.log(response.status))
       .catch((err) => console.log(err))
-      .finally(setWaitingResponse(false));
+      .finally(() => {
+        setWaitingResponse(false);
+        setState({ workSite: null, item: null, quantity: null });
+      });
+  };
+
+  const submitable = () => {
+    return (
+      state.item !== null &&
+      state.item !== "" &&
+      state.workSite !== null &&
+      state.workSite !== "" &&
+      state.quantity !== null &&
+      state.quantity > 0
+    );
   };
 
   return (
@@ -127,8 +134,10 @@ const AddItemStockScreen = () => {
             type="number"
             placeholder="Insere a quantidade"
             onChangeText={handleQuantityChange}
+            value={state.quantity}
           />
           <Button
+            isDisabled={!submitable()}
             onPress={() => {
               submitForm();
             }}

@@ -11,8 +11,7 @@ import {
 import axios from "axios";
 
 const ItemSelection = (props) => {
-  const api_host = process.env["BACKEND_HOST"];
-  const api_port = process.env["BACKEND_PORT"];
+  const api_host = "https://imeg-stock-management.herokuapp.com";
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -20,7 +19,7 @@ const ItemSelection = (props) => {
 
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const url = "http://" + api_host + ":" + api_port + "/items";
+  const url = api_host + "/items";
 
   useEffect(() => {
     setLoading(true);
